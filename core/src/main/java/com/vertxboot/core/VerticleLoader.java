@@ -71,7 +71,7 @@ public class VerticleLoader {
     }
 
     @BeanConfig(async = false, overridable = true)
-    public static VerticleLoader messageCodecLoader(Vertx vertx, DeploymentOptions deploymentOptions) {
+    public static VerticleLoader verticleLoader(Vertx vertx, DeploymentOptions deploymentOptions) {
         return VerticleLoader.load(vertx, deploymentOptions);
     }
 }

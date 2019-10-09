@@ -1,9 +1,22 @@
 package com.vertxboot.web;
 
+import com.vertxboot.beans.BeanConfig;
+
+import java.util.Collections;
 import java.util.List;
 
 public interface InterceptorConfig {
-    List<BaseInterceptor> interceptors();
+    default List<BaseInterceptor> interceptors() {
+        return Collections.emptyList();
+    }
 
-    List<BaseInterceptor> errorHandlers();
+    default List<BaseInterceptor> errorHandlers() {
+        return Collections.emptyList();
+    }
+
+    @BeanConfig(async = false, overridable = true)
+    static InterceptorConfig interceptorConfig() {
+        return new InterceptorConfig() {
+        };
+    }
 }

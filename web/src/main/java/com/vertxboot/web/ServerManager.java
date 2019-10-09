@@ -23,7 +23,7 @@ public class ServerManager {
     protected ServerManager() {
     }
 
-    public static Future<ServerManager> startServer(Vertx vertx, AppConfig config) {
+    public static Future<ServerManager> startServer(Vertx vertx, AppConfig config, InterceptorConfig interceptorConfig) {
         ServerManager serverManager = new ServerManager();
         JsonObject serverConfig = config.getSync()
                 .getJsonObject("server", new JsonObject());
@@ -41,15 +41,14 @@ public class ServerManager {
         serverManager.httpServer = serverManager.vertx.createHttpServer(httpServerOptions);
         serverManager.router = Router.router(serverManager.vertx);
         serverManager.router.route().handler(BodyHandler.create());
-
-        RestLoader.load(serverManager.router);
+        RestLoader.load(serverManager.router, interceptorConfig);
         serverManager.httpServer.requestHandler(serverManager.router).listen(
                 serverConfig.getInteger(SERVER_PORT_CONFIG_KEY, 8080));
         return Promise.succeededPromise(serverManager).future();
     }
 
     @BeanConfig(overridable = true)
-    public static Future<ServerManager> serverManager(Vertx vertx, AppConfig config) {
-        return ServerManager.startServer(vertx, config);
+    public static Future<ServerManager> serverManager(Vertx vertx, AppConfig appConfig, InterceptorConfig interceptorConfig) {
+        return ServerManager.startServer(vertx, appConfig, interceptorConfig);
     }
 }

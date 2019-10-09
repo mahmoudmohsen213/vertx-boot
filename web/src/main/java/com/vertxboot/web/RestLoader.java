@@ -20,11 +20,8 @@ public class RestLoader {
     protected RestLoader() {
     }
 
-    public static void load(Router router) {
+    public static void load(Router router, InterceptorConfig interceptorConfig) {
         logger.info("RestLoader: loading rest handlers start...");
-
-        InterceptorConfig interceptorConfig = (BeanFactory.instance().isInitialized(InterceptorConfig.class)) ?
-                BeanFactory.instance().getSync(InterceptorConfig.class) : null;
 
         if (Objects.nonNull(interceptorConfig)) {
             logger.info("RestLoader: loading interceptors");

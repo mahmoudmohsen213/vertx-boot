@@ -39,8 +39,10 @@ By looking at this [example](https://github.com/vert-x3/vertx-examples/blob/mast
 ### No application startup life cycle
 After solving all the above problems, the application will have multiple <i>manager</i> classes, and these manager classes will need something to construct them or invoke their static methods. Vert.x on its own doesn't provide an organized application startup life cycle, so you will have to write a code for this as well.
 
-Now, to see how each of the above problems is solved, and how to use this library, we will describe the details of each module separately. However, since some of them depend on others, it is recommended to read their README in the following order:
-1. beans
-2. core
-3. web
-4. vault
+The whole thing can be started by simply:
+1. Defining a `BeanConfig` for the `Vertx` instance ([examples](https://github.com/search?q=repo%3Amahmoudmohsen213%2Fvertx-boot%20%40BeanConfig&type=code)). This is a dependency for all internal beans. The bean loader will detect this definition and initialize it in the startup.
+2. Invoking
+   ```
+   com.vertxboot.beans.BeanLoader.VertxApplication.run(YourMainJavaClass.class);
+   ```
+   in the application `main` method (See [VertxApplication](https://github.com/mahmoudmohsen213/vertx-boot/blob/master/beans/src/main/java/com/vertxboot/VertxApplication.java)), where `YourMainJavaClass` must be in a top-level package.
